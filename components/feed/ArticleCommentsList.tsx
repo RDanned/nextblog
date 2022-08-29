@@ -13,7 +13,7 @@ function ArticleCommentsList({article}: ArticleCommentsProps){
   useEffect(() => {
     articleApi.getComments(article.slug).then(
       (response) =>
-      setComments(response.data.comments.map(comment => <ArticleComment comment={comment}/>))
+      setComments(response.data.comments.map(comment => <ArticleComment key={comment.id} comment={comment}/>))
     )
   }, [])
 
