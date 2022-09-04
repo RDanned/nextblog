@@ -6,15 +6,21 @@ import ArticleHeader from "../../components/feed/ArticleHeader";
 import ArticleActions from "../../components/feed/ArticleActions";
 import ArticleCommentForm from "../../components/feed/ArticleCommentForm";
 import ArticleCommentsList from "../../components/feed/ArticleCommentsList";
+import {loadList as loadCommentsList} from "../../lib/store/modules/comments";
+import {useAppDispatch} from "../../lib/store/hooks";
 
 function ArticlePage() {
   const router = useRouter();
   const slug = router.query.slug;
   const [article, setArticle] = useState<ArticleType>();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (slug) {
-      articleApi.getItem(slug).then((response) => setArticle(response.data.article))
+      articleApi.getItem(slug).then((response) => {
+        setArticle(response.data.article);
+        dispatch(loadCommentsList(response.data.article.slug));
+      })
     }
   }, [slug])
 
@@ -61,7 +67,6 @@ function ArticlePage() {
                 <span className="mod-options"><i className="ion-edit"></i><i className="ion-trash-a"></i></span>
               </div>
             </div>
-
 
           </div>
         </div>

@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {ArticleType, Comments} from "../../lib/types/article";
 import ArticleComment from "./ArticleComment";
-import articleApi from "../../lib/api/article";
+import {selectList} from "../../lib/store/modules/comments";
+import {useSelector} from "react-redux";
 
 interface ArticleCommentsProps {
   article: ArticleType
@@ -9,13 +10,11 @@ interface ArticleCommentsProps {
 
 function ArticleCommentsList({article}: ArticleCommentsProps){
   const [comments, setComments] = useState<Comments>(undefined)
+  const commentsList = useSelector(selectList)
 
   useEffect(() => {
-    articleApi.getComments(article.slug).then(
-      (response) =>
-      setComments(response.data.comments.map(comment => <ArticleComment key={comment.id} comment={comment}/>))
-    )
-  }, [])
+    if(commentsList) setComments(commentsList.map(comment => <ArticleComment key={comment.id} comment={comment}/>))
+  }, [commentsList])
 
   return (
     <>
