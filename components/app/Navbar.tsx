@@ -1,18 +1,25 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import Link from "next/link";
-import {isLoggedIn} from "../../lib/helpers/user";
+import {hasToken} from "../../lib/helpers/user";
 import {clearStorage} from "../../lib/helpers/psStorage";
 import Router from "next/router";
+import {useSelector} from "react-redux";
+import {selectIsLoggedIn} from "../../lib/store/modules/user";
+import {useAppDispatch} from "../../lib/store/hooks";
+import {setIsLoggedIn} from "../../lib/store/modules/user";
 
 const Navbar = () => {
-  const [logged, setLogged] = useState<boolean>();
+  const isLoggedIn: boolean = useSelector(selectIsLoggedIn);
+  const dispatch = useAppDispatch();
+
 
   useEffect(() => {
-    setLogged(isLoggedIn())
+    dispatch(setIsLoggedIn(hasToken()))
   }, [])
 
   function logout(){
     clearStorage();
+    dispatch(setIsLoggedIn(false))
     Router.push("/");
   }
 
@@ -27,7 +34,7 @@ const Navbar = () => {
             <a className="nav-link active" href="">Home</a>
           </li>
           {
-            logged
+            isLoggedIn
             &&
             <>
               <li className="nav-item">
@@ -45,7 +52,7 @@ const Navbar = () => {
             </>
           }
           {
-            !logged
+            !isLoggedIn
             &&
             <>
               <li className="nav-item">
@@ -61,7 +68,7 @@ const Navbar = () => {
             </>
           }
           {
-            logged
+            isLoggedIn
             &&
             <li className="nav-item">
               <a className="nav-link" onClick={logout}>Logout</a>

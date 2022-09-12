@@ -1,30 +1,18 @@
 import React, {useState} from "react";
-import Router from 'next/router'
-import userApi from "../../lib/api/user";
-import {setItem} from "../../lib/helpers/psStorage";
+import {useAppDispatch} from "../../lib/store/hooks";
+import {login, setErrors, selectErrors} from "../../lib/store/modules/user";
+import {useSelector} from "react-redux";
 
 function Login(){
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("")
-  const [errors, setErrors] = useState([])
+  const errors = useSelector(selectErrors)
+  const dispatch = useAppDispatch()
 
   function handleSubmit(e: React.MouseEvent<HTMLButtonElement>){
     e.preventDefault();
-    setErrors([]);
-
-    userApi.login({
-      email: email,
-      password: password
-    })
-      .then((response) => {
-        setItem("token", response.data.user.token);
-        Router.push("/");
-      })
-      .catch((reason) => {
-        setErrors(
-          Object.keys(reason.response.data.errors).map(key => <li key={key}>That {key} {reason.response.data.errors[key]}</li>)
-        )
-      })
+    dispatch(setErrors([]))
+    dispatch(login({email: email, password: password}))
   }
 
   return (
@@ -41,7 +29,7 @@ function Login(){
             {
               errors &&
                 <ul className="error-messages">
-                  {errors}
+                  {errors.map((error, index) => <li key={index}>{error}</li>)}
                 </ul>
             }
 

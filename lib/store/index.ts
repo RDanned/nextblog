@@ -1,9 +1,10 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import commentsReducer from './modules/comments'
+import userReducer from './modules/user'
 
 export function makeStore() {
   return configureStore({
-    reducer: { comments: commentsReducer },
+    reducer: { comments: commentsReducer, user: userReducer },
   })
 }
 

@@ -1,13 +1,13 @@
 import axios from './axios'
 
-interface LoginCredentials {
+export interface LoginCredentials {
   email: string,
   password: string
 }
 
 const login = (credentials: LoginCredentials) => axios.post("users/login", {user: credentials})
 
-interface RegisterCredentials {
+export interface RegisterCredentials {
   email: string,
   password: string,
   username: string
