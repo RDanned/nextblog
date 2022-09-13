@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-
 import userApi, {LoginCredentials, RegisterCredentials} from '../../api/user'
 import {setItem} from "../../helpers/psStorage";
 import Router from 'next/router'
@@ -18,7 +17,7 @@ const initialState: UserState = {
 
 //actions
 export const login = createAsyncThunk(
-  'auth/login',
+  'user/login',
   async (credentials: LoginCredentials, { rejectWithValue }) => {
     try {
       const response = await userApi.login(credentials)
@@ -30,7 +29,7 @@ export const login = createAsyncThunk(
 )
 
 export const register = createAsyncThunk(
-  'auth/register',
+  'user/register',
   async (credentials: RegisterCredentials, { rejectWithValue }) => {
     try {
       const response = await userApi.register(credentials)
