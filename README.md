@@ -1,3 +1,15 @@
+# Project description
+
+Next.js implementation of **[RealWorld example app](https://realworld-docs.netlify.app/)**.
+
+Used packages:
+- next.js
+- redux
+- @reduxjs/toolkit
+- axios
+
+# Next.js description
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
