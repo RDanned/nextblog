@@ -9,7 +9,7 @@ function Settings(){
       .then((response) => {
         console.log(response.data)
       })
-  })
+  }, [])
 
   return (
 

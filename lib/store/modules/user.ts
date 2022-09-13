@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import userApi, {LoginCredentials} from '../../api/user'
+import userApi, {LoginCredentials, RegisterCredentials} from '../../api/user'
 import {setItem} from "../../helpers/psStorage";
 import Router from 'next/router'
 
@@ -22,13 +22,25 @@ export const login = createAsyncThunk(
   async (credentials: LoginCredentials, { rejectWithValue }) => {
     try {
       const response = await userApi.login(credentials)
-      setItem("token", response.data.user.token);
       return response.data
     } catch (e) {
       return rejectWithValue(e.response.data)
     }
   }
 )
+
+export const register = createAsyncThunk(
+  'auth/register',
+  async (credentials: RegisterCredentials, { rejectWithValue }) => {
+    try {
+      const response = await userApi.register(credentials)
+      return response.data
+    } catch (e) {
+      return rejectWithValue(e.response.data)
+    }
+  }
+)
+
 
 //store
 export const userSlice = createSlice({
@@ -46,9 +58,18 @@ export const userSlice = createSlice({
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.isLoggedIn = action.payload
+        setItem("token", action.payload.user.token);
         Router.push("/")
       })
       .addCase(login.rejected, (state, action) => {
+        state.errors = Object.keys(action.payload['errors']).map(key => `That ${key} ${action.payload['errors'][key]}`)
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.isLoggedIn = action.payload
+        setItem("token", action.payload.user.token);
+        Router.push("/")
+      })
+      .addCase(register.rejected, (state, action) => {
         state.errors = Object.keys(action.payload['errors']).map(key => `That ${key} ${action.payload['errors'][key]}`)
       })
   }

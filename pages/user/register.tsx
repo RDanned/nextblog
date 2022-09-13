@@ -1,32 +1,19 @@
 import React, {useState} from "react";
-import userApi from "../../lib/api/user";
-import {setItem} from "../../lib/helpers/psStorage";
-import Router from "next/router";
+import {useAppDispatch} from "../../lib/store/hooks";
+import {useSelector} from "react-redux";
+import {register, selectErrors, setErrors} from "../../lib/store/modules/user";
 
 function Register(){
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [username, setUsername] = useState<string>("");
-  const [errors, setErrors] = useState([])
+  const errors = useSelector(selectErrors)
+  const dispatch = useAppDispatch()
 
   function handleSubmit(e: React.MouseEvent<HTMLButtonElement>){
     e.preventDefault();
-    setErrors([]);
-
-    userApi.register({
-      email: email,
-      password: password,
-      username: username
-    })
-      .then((response) => {
-        setItem('token', response.data.user.token);
-        Router.push("/");
-      })
-      .catch((reason) => {
-        setErrors(
-          Object.keys(reason.response.data.errors).map(key => <li key={key}>That {key} {reason.response.data.errors[key]}</li>)
-        )
-      })
+    dispatch(setErrors([]))
+    dispatch(register({email: email, password: password, username: username}))
   }
 
   return (
@@ -43,7 +30,7 @@ function Register(){
             {
               errors &&
               <ul className="error-messages">
-                {errors}
+                {errors.map((error, index) => <li key={index}>{error}</li>)}
               </ul>
             }
 

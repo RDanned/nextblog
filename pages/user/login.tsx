@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useAppDispatch} from "../../lib/store/hooks";
-import {login, setErrors, selectErrors} from "../../lib/store/modules/user";
 import {useSelector} from "react-redux";
+import {login, setErrors, selectErrors} from "../../lib/store/modules/user";
 
 function Login(){
   const [email, setEmail] = useState<string>("");
