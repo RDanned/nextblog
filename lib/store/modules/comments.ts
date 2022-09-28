@@ -21,13 +21,13 @@ export const loadList = createAsyncThunk(
   'comments/fetchList',
   async(slug: string) => {
     const response = await articleApi.getComments(slug)
-    return response.data.comments
+    return response.data.articles
   }
 )
 
 //store
 export const counterSlice = createSlice({
-  name: 'counter',
+  name: 'comments',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {

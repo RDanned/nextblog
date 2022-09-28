@@ -3,20 +3,26 @@ import {useEffect, useState} from "react";
 import {ArticleList} from "../lib/types/article";
 import articleApi from "../lib/api/article";
 import ArticlePreview from "../components/feed/ArticlePreview";
+import {useAppDispatch} from "../lib/store/hooks";
+import {loadList as loadArticleList} from "../lib/store/modules/articles";
+import {useSelector} from "react-redux";
+import {selectList} from "../lib/store/modules/articles";
 
 const Home: NextPage = () => {
 
   const [articles, setArticles] = useState<ArticleList>(undefined)
+  const dispatch = useAppDispatch();
+  const articlesData = useSelector(selectList)
 
   useEffect(() => {
-    articleApi.getList()
-      .then(
-        (response) =>
-        setArticles(
-          response.data.articles.map((article) => <ArticlePreview key={article.slug} article={article} />)
-        )
-      )
-  }, [])
+    if(articlesData.length !== 0) {
+      setArticles(articlesData.map((article) => <ArticlePreview key={article.slug} article={article} />))
+    } else {
+      dispatch(loadArticleList())
+    }
+  }, [articlesData])
+
+  if(!articles) return;
 
   return (
     <div className="home-page">

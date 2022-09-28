@@ -1,15 +1,21 @@
 import axios from "./axios";
 
-const getList = () => axios.get('articles')
+const getArticles = () => axios.get('articles')
 
-const getItem = (slug) => axios.get(`articles/${slug}`)
+const getItem = (slug: string) => axios.get(`articles/${slug}`)
 
-const sendComment = (slug) => axios.post(`articles/${slug}/comments`, {})
+const sendComment = (slug: string) => axios.post(`articles/${slug}/comments`, {})
 
-const getComments = (slug) => axios.get(`articles/${slug}/comments`)
+const getComments = (slug: string) => axios.get(`articles/${slug}/comments`)
+
+const favArticle = (slug: string) => axios.post(`articles/${slug}/favorite`)
+
+const unfavArticle = (slug: string) => axios.delete(`articles/${slug}/favorite`)
 
 export default {
-  getList,
+  getArticles,
   getItem,
-  getComments
+  getComments,
+  favArticle,
+  unfavArticle
 }

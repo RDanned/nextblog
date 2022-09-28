@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import Link from "next/link";
 import {ArticleType} from "../../lib/types/article";
+import ArticlePreviewFavBtn from "./ArticlePreviewFavBtn";
 
 function ArticlePreview({article}){
   const [articlePreview, setArticlePreview] = useState<ArticleType>()
@@ -21,9 +22,7 @@ function ArticlePreview({article}){
           <Link href={`articles/${articlePreview.slug}`} className="author"><a>{articlePreview.author.username}</a></Link>
           <span className="date">{articlePreview.createdAt}</span>
         </div>
-        <button className="btn btn-outline-primary btn-sm pull-xs-right">
-          <i className="ion-heart"></i> {articlePreview.favoritesCount}
-        </button>
+        <ArticlePreviewFavBtn articlePreview={articlePreview}/>
       </div>
       <Link href={`articles/${articlePreview.slug}`}>
         <a className="preview-link">
