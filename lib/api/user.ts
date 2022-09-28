@@ -1,4 +1,5 @@
 import axios from './axios'
+import {UserType} from "../types/user";
 
 export interface LoginCredentials {
   email: string,
@@ -17,8 +18,15 @@ const register = (credentials: RegisterCredentials) => axios.post("users/", {use
 
 const getUser = () => axios.get("user")
 
+export interface UpdateUserData {
+  user: UserType
+}
+
+const updateUser = (data: UpdateUserData) => axios.put("user", data)
+
 export default {
   login,
   register,
-  getUser
+  getUser,
+  updateUser
 }
