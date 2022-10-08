@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import userApi, {LoginCredentials, RegisterCredentials} from '../../api/user'
 import {setItem} from "../../helpers/psStorage";
 import Router from 'next/router'
+import {UserType} from "../../types/user";
 
 //state type
 export interface UserState {
@@ -18,10 +19,10 @@ const initialState: UserState = {
 //actions
 export const login = createAsyncThunk(
   'user/login',
-  async (credentials: LoginCredentials, { rejectWithValue }) => {
+  async (credentials: LoginCredentials, { rejectWithValue, fulfillWithValue }) => {
     try {
       const response = await userApi.login(credentials)
-      return response.data
+      return fulfillWithValue(response.data)
     } catch (e) {
       return rejectWithValue(e.response.data)
     }
@@ -30,10 +31,10 @@ export const login = createAsyncThunk(
 
 export const register = createAsyncThunk(
   'user/register',
-  async (credentials: RegisterCredentials, { rejectWithValue }) => {
+  async (credentials: RegisterCredentials, { rejectWithValue, fulfillWithValue }) => {
     try {
       const response = await userApi.register(credentials)
-      return response.data
+      return fulfillWithValue(response.data)
     } catch (e) {
       return rejectWithValue(e.response.data)
     }
@@ -56,7 +57,7 @@ export const userSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(login.fulfilled, (state, action) => {
-        state.isLoggedIn = action.payload
+        state.isLoggedIn = true
         setItem("token", action.payload.user.token);
         Router.push("/")
       })
@@ -64,11 +65,12 @@ export const userSlice = createSlice({
         state.errors = Object.keys(action.payload['errors']).map(key => `That ${key} ${action.payload['errors'][key]}`)
       })
       .addCase(register.fulfilled, (state, action) => {
-        state.isLoggedIn = action.payload
+        state.isLoggedIn = true
         setItem("token", action.payload.user.token);
         Router.push("/")
       })
       .addCase(register.rejected, (state, action) => {
+        console.log(action)
         state.errors = Object.keys(action.payload['errors']).map(key => `That ${key} ${action.payload['errors'][key]}`)
       })
   }

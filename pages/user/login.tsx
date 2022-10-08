@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useAppDispatch} from "../../lib/store/hooks";
 import {useSelector} from "react-redux";
 import {login, setErrors, selectErrors} from "../../lib/store/modules/user";
@@ -8,6 +8,10 @@ function Login(){
   const [password, setPassword] = useState<string>("")
   const errors = useSelector(selectErrors)
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(setErrors([]))
+  }, [])
 
   function handleSubmit(e: React.MouseEvent<HTMLButtonElement>){
     e.preventDefault();

@@ -1,6 +1,7 @@
 import axios from "axios";
 import {host} from "../../config/host"
-import {getItem} from "../helpers/psStorage";
+import {getItem, clearStorage} from "../helpers/psStorage";
+import Router from 'next/router'
 
 export type DefaultResponse = {
   data: {
@@ -14,12 +15,29 @@ const axiosInstance = axios.create({
   baseURL: host
 })
 
-axiosInstance.interceptors.request.use((request) => {
-  if(getItem("token")){
-    request.headers["Authorization"] = `Token ${getItem("token")}`;
-  }
+axiosInstance.interceptors.request.use(
+  (request) => {
+    if(getItem("token")){
+      request.headers["Authorization"] = `Token ${getItem("token")}`;
+    }
 
-  return request;
-})
+    return request;
+  }
+)
+
+axiosInstance.interceptors.response.use(
+  function (response) {
+    return response
+  },
+  (error) => {
+    if (401 === error.response.status && Router.route != '/user/login') {
+      Router.push('/user/login')
+      clearStorage()
+    }
+
+    throw error
+  }
+)
+
 
 export default axiosInstance
