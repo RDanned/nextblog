@@ -38,9 +38,11 @@ const Navbar = () => {
             &&
             <>
               <li className="nav-item">
-                <a className="nav-link" href="">
-                  <i className="ion-compose"></i>&nbsp;New Article
-                </a>
+                <Link href="/articles/create">
+                  <a className="nav-link">
+                    <i className="ion-compose"></i>&nbsp;New Article
+                  </a>
+                </Link>
               </li>
               <li className="nav-item">
                 <Link href="/user/settings">

@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import userApi from "../../lib/api/user";
 import {UserType} from "../../lib/types/user";
+import Router, {useRouter} from "next/router";
+import {useLoggedIn} from "../../lib/store/hooks";
 
 type SettingsForm = {
   email: {
@@ -9,6 +11,7 @@ type SettingsForm = {
 }
 
 function Settings(){
+  const router = useRouter();
   const [updated, setUpdated] = useState<boolean>(false)
   const [formData, setFormData] = useState<UserType>({
     username: '',
@@ -19,8 +22,11 @@ function Settings(){
     password: ''
   });
 
+  const isLoggedIn = useLoggedIn()
+
   useEffect(() => {
-    userApi.getUser()
+    if(!isLoggedIn) Router.push('/user/login')
+    else userApi.getUser()
       .then((response) => {
         setFormData(response.data.user)
       })
@@ -45,7 +51,8 @@ function Settings(){
     }))
   }
 
-  return (
+  if(!isLoggedIn) return
+  else return (
 
     <div className="settings-page">
       <div className="container page">

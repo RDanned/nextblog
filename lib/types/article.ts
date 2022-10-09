@@ -12,8 +12,8 @@ export type ArticleType = {
   description: string;
   body: string;
   tagList: string[];
-  createdAt: number;
-  updatedAt: number;
+  createdAt: string;
+  updatedAt: string;
   favorited: boolean;
   favoritesCount: number;
   author: AuthorType
