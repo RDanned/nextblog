@@ -49,7 +49,9 @@ const Home: NextPage = () => {
               </ul>
             </div>
 
-            {articles}
+            <>
+              {articles}
+            </>
 
             <div className="article-preview">
               <div className="article-meta">
