@@ -1,13 +1,13 @@
 import type { NextPage } from 'next'
 import {useEffect, useState} from "react";
 import {ArticleList} from "../lib/types/article";
-import articleApi from "../lib/api/article";
 import ArticlePreview from "../components/feed/ArticlePreview";
 import {useAppDispatch} from "../lib/store/hooks";
-import {loadList as loadArticleList} from "../lib/store/modules/articles";
+import {loadList as loadArticleList, loadTags as loadArticleTags} from "../lib/store/modules/articles";
 import {useSelector} from "react-redux";
 import {selectList} from "../lib/store/modules/articles";
 import {hasToken} from "../lib/helpers/user";
+import HomeTags from "../components/feed/HomeTags";
 
 const Home: NextPage = () => {
 
@@ -18,10 +18,15 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     setIsLoggedIn(hasToken)
+    dispatch(loadArticleTags())
+    dispatch(loadArticleList({}))
+  }, [])
+
+  useEffect(() => {
     if(articlesData.length !== 0) {
       setArticles(articlesData.map((article) => <ArticlePreview key={article.slug} article={article} />))
     } else {
-      dispatch(loadArticleList())
+      dispatch(loadArticleList({}))
     }
   }, [articlesData])
 
@@ -56,7 +61,7 @@ const Home: NextPage = () => {
               {articles}
             </>
 
-            <div className="article-preview">
+            {/*<div className="article-preview">
               <div className="article-meta">
                 <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg"/></a>
                 <div className="info">
@@ -72,9 +77,9 @@ const Home: NextPage = () => {
                 <p>This is the description for the post.</p>
                 <span>Read more...</span>
               </a>
-            </div>
+            </div>*/}
 
-            <div className="article-preview">
+            {/*<div className="article-preview">
               <div className="article-meta">
                 <a href="profile.html"><img src="http://i.imgur.com/N4VcUeJ.jpg"/></a>
                 <div className="info">
@@ -90,24 +95,14 @@ const Home: NextPage = () => {
                 <p>This is the description for the post.</p>
                 <span>Read more...</span>
               </a>
-            </div>
+            </div>*/}
 
           </div>
 
           <div className="col-md-3">
             <div className="sidebar">
               <p>Popular Tags</p>
-
-              <div className="tag-list">
-                <a href="" className="tag-pill tag-default">programming</a>
-                <a href="" className="tag-pill tag-default">javascript</a>
-                <a href="" className="tag-pill tag-default">emberjs</a>
-                <a href="" className="tag-pill tag-default">angularjs</a>
-                <a href="" className="tag-pill tag-default">react</a>
-                <a href="" className="tag-pill tag-default">mean</a>
-                <a href="" className="tag-pill tag-default">node</a>
-                <a href="" className="tag-pill tag-default">rails</a>
-              </div>
+              <HomeTags />
             </div>
           </div>
 

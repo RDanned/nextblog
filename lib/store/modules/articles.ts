@@ -2,11 +2,13 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import type { AppState, AppThunk } from '../'
 import {ArticleType} from '../../types/article'
-import articleApi from '../../api/article'
+import articleApi, {ArticlesQuery} from '../../api/article'
+
 
 //state
 export interface ArticleState {
   list: ArticleType[],
+  tags: string[],
   loading: boolean
 }
 
@@ -14,14 +16,23 @@ export interface ArticleState {
 const initialState: ArticleState = {
   list: [],
   loading: false,
+  tags: []
 }
 
 //actions
 export const loadList = createAsyncThunk(
   'articles/fetchList',
-  async() => {
-    const response = await articleApi.getArticles()
+  async(query: ArticlesQuery) => {
+    const response = await articleApi.getArticles(query)
     return response.data.articles
+  }
+)
+
+export const loadTags = createAsyncThunk(
+  'articles/fetchTags',
+  async() => {
+    const response = await articleApi.getTags()
+    return response.data.tags
   }
 )
 
@@ -58,6 +69,9 @@ export const articleSlice = createSlice({
       .addCase(loadList.fulfilled, (state, action) => {
         state.list = action.payload
       })
+      .addCase(loadTags.fulfilled, (state, action) => {
+        state.tags = action.payload
+      })
       .addCase(favArticle.fulfilled, (state, action) => {
         state.list = state.list.map(article => {
           if(action.payload.slug === article.slug){
@@ -82,5 +96,6 @@ export const {setList} = articleSlice.actions
 
 //selectors
 export const selectList = (state) => state.articles.list
+export const selectTags = (state) => state.articles.tags
 
 export default articleSlice.reducer

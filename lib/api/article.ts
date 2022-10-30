@@ -1,7 +1,11 @@
 import axios from "./axios";
 import {ArticleType, Article} from "../types/article";
 
-const getArticles = () => axios.get('articles')
+export interface ArticlesQuery {
+  tag?: string
+}
+
+const getArticles = (query: ArticlesQuery) => axios.get('articles', {params: query})
 
 const getItem = (slug: string) => axios.get(`articles/${slug}`)
 
@@ -15,11 +19,14 @@ const unfavArticle = (slug: string) => axios.delete(`articles/${slug}/favorite`)
 
 const createArticle = (data: Article) => axios.post('articles', data)
 
+const getTags = () => axios.get('tags')
+
 export default {
   getArticles,
   getItem,
   getComments,
   favArticle,
   unfavArticle,
-  createArticle
+  createArticle,
+  getTags
 }
