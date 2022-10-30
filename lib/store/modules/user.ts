@@ -3,6 +3,7 @@ import userApi, {LoginCredentials, RegisterCredentials} from '../../api/user'
 import {setItem} from "../../helpers/psStorage";
 import Router from 'next/router'
 import {UserType} from "../../types/user";
+import {hasToken} from "../../helpers/user";
 
 //state type
 export interface UserState {

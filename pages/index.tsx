@@ -7,14 +7,17 @@ import {useAppDispatch} from "../lib/store/hooks";
 import {loadList as loadArticleList} from "../lib/store/modules/articles";
 import {useSelector} from "react-redux";
 import {selectList} from "../lib/store/modules/articles";
+import {hasToken} from "../lib/helpers/user";
 
 const Home: NextPage = () => {
 
   const [articles, setArticles] = useState<ArticleList>(undefined)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const dispatch = useAppDispatch();
   const articlesData = useSelector(selectList)
 
   useEffect(() => {
+    setIsLoggedIn(hasToken)
     if(articlesData.length !== 0) {
       setArticles(articlesData.map((article) => <ArticlePreview key={article.slug} article={article} />))
     } else {
