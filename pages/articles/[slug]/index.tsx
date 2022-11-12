@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
-import articleApi from "../../lib/api/article";
-import {ArticleType} from "../../lib/types/article";
-import ArticleHeader from "../../components/feed/ArticleHeader";
-import ArticleActions from "../../components/feed/ArticleActions";
-import ArticleCommentForm from "../../components/feed/ArticleCommentForm";
-import ArticleCommentsList from "../../components/feed/ArticleCommentsList";
-import {loadList as loadCommentsList} from "../../lib/store/modules/comments";
-import {useAppDispatch} from "../../lib/store/hooks";
+import articleApi from "lib/api/article";
+import {ArticleType} from "lib/types/article";
+import ArticleHeader from "components/feed/ArticleHeader";
+import ArticleActions from "components/feed/ArticleActions";
+import ArticleCommentForm from "components/feed/ArticleCommentForm";
+import ArticleCommentsList from "components/feed/ArticleCommentsList";
+import {loadList as loadCommentsList} from "lib/store/modules/comments";
+import {useAppDispatch} from "lib/store/hooks";
 
 function ArticlePage() {
   const router = useRouter();
@@ -17,7 +17,7 @@ function ArticlePage() {
 
   useEffect(() => {
     if (slug) {
-      articleApi.getItem(slug).then((response) => {
+      articleApi.getItem(slug as string).then((response) => {
         setArticle(response.data.article);
         dispatch(loadCommentsList(response.data.article.slug));
       })

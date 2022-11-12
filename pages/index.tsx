@@ -11,7 +11,7 @@ import HomeTags from "../components/feed/HomeTags";
 
 const Home: NextPage = () => {
 
-  const [articles, setArticles] = useState<ArticleList>(undefined)
+  const [articles, setArticles] = useState<[]>([])
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const dispatch = useAppDispatch();
   const articlesData = useSelector(selectList)
@@ -20,14 +20,15 @@ const Home: NextPage = () => {
     setIsLoggedIn(hasToken)
     dispatch(loadArticleTags())
     dispatch(loadArticleList({}))
+    // if(articlesData.length !== 0) {
+    //   setArticles(articlesData.map((article) => <ArticlePreview key={article.slug} article={article} />))
+    // } else {
+    //   dispatch(loadArticleList({}))
+    // }
   }, [])
 
   useEffect(() => {
-    if(articlesData.length !== 0) {
-      setArticles(articlesData.map((article) => <ArticlePreview key={article.slug} article={article} />))
-    } else {
-      dispatch(loadArticleList({}))
-    }
+    setArticles(articlesData.map((article) => <ArticlePreview key={article.slug} article={article} />))
   }, [articlesData])
 
   if(!articles) return;
@@ -56,9 +57,10 @@ const Home: NextPage = () => {
                 </li>
               </ul>
             </div>
-
             <>
-              {articles}
+              {
+                articles.length > 0 ? articles : <div>Articles wasn't found</div>
+              }
             </>
 
             {/*<div className="article-preview">

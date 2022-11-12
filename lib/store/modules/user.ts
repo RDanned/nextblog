@@ -67,6 +67,7 @@ export const userSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoggedIn = true
+        setItem("username", action.payload.user.username)
         setItem("token", action.payload.user.token);
         Router.push("/")
       })

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
-import articleApi from "../../lib/api/article";
-import {ArticleType} from "../../lib/types/article";
-import {useAppDispatch} from "../../lib/store/hooks";
-import {hasToken} from "../../lib/helpers/user";
+import articleApi from "lib/api/article";
+import {ArticleType} from "lib/types/article";
+import {useAppDispatch} from "lib/store/hooks";
+import {hasToken} from "lib/helpers/user";
 
-function ArticleCreate() {
+function ArticleEdit() {
   const router = useRouter();
   const [updated, setUpdated] = useState<boolean>(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -24,13 +24,18 @@ function ArticleCreate() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if(router.query.slug) articleApi.getItem(router.query.slug as string)
+      .then((response) => setFormData(response.data.article))
+  }, [router])
+
+  useEffect(() => {
     setIsLoggedIn(hasToken())
     if(!hasToken()) router.push('/user/login')
   }, [])
 
   function handleChange(e: React.SyntheticEvent){
     setUpdated(false)
-    //@ts-ignore
+    // @ts-ignore
     let {name, value} = e.target as typeof e.target;
 
     if(name === 'tagList') {
@@ -46,7 +51,7 @@ function ArticleCreate() {
   function handleSubmit(e: React.SyntheticEvent){
     setUpdated(false)
     e.preventDefault()
-    articleApi.createArticle({article: formData})
+    articleApi.updateItem({article: formData})
       .then(response => {
         setFormData(response.data.article)
         setUpdated(true)
@@ -68,6 +73,7 @@ function ArticleCreate() {
               <fieldset>
                 <fieldset className="form-group">
                   <input onChange={handleChange}
+                         value={formData.title}
                          name="title"
                          type="text"
                          className="form-control form-control-lg"
@@ -75,6 +81,7 @@ function ArticleCreate() {
                 </fieldset>
                 <fieldset className="form-group">
                   <input onChange={handleChange}
+                         value={formData.description}
                          name="description"
                          type="text"
                          className="form-control"
@@ -82,6 +89,7 @@ function ArticleCreate() {
                 </fieldset>
                 <fieldset className="form-group">
                 <textarea onChange={handleChange}
+                          value={formData.body}
                           name="body"
                           className="form-control" rows={8}
                           placeholder="Write your article (in markdown)"></textarea>
@@ -89,6 +97,7 @@ function ArticleCreate() {
                 <fieldset className="form-group">
                   <input
                     onChange={handleChange}
+                    value={formData.tagList.join(', ')}
                     name="tagList"
                     type="text"
                     className="form-control"
@@ -109,4 +118,4 @@ function ArticleCreate() {
   )
 }
 
-export default ArticleCreate;
+export default ArticleEdit;

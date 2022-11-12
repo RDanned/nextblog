@@ -21,6 +21,14 @@ function ArticlePreview({article}){
         <div className="info">
           <Link href={`articles/${articlePreview.slug}`} className="author"><a>{articlePreview.author.username}</a></Link>
           <span className="date">{articlePreview.createdAt}</span>
+          <span className="mod-options">
+            <Link href={{
+              pathname: '/articles/[slug]/edit',
+              query: {slug: articlePreview.slug}}}>
+              <a><i className="ion-edit"></i></a>
+            </Link>
+            <i className="ion-trash-a"></i>
+          </span>
         </div>
         <ArticlePreviewFavBtn articlePreview={articlePreview}/>
       </div>
