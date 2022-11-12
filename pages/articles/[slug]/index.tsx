@@ -17,7 +17,7 @@ function ArticlePage() {
 
   useEffect(() => {
     if (slug) {
-      articleApi.getItem(slug as string).then((response) => {
+      articleApi.getArticle(slug as string).then((response) => {
         setArticle(response.data.article);
         dispatch(loadCommentsList(response.data.article.slug));
       })

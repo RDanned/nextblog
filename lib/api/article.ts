@@ -7,9 +7,11 @@ export interface ArticlesQuery {
 
 const getArticles = (query: ArticlesQuery) => axios.get('articles', {params: query})
 
-const getItem = (slug: string) => axios.get(`articles/${slug}`)
+const getArticle = (slug: string) => axios.get(`articles/${slug}`)
 
-const updateItem = (data: Article) => axios.put(`articles/${data.article.slug}`, data)
+const deleteArticle = (slug: string) => axios.delete(`articles/${slug}`)
+
+const updateArticle = (data: Article) => axios.put(`articles/${data.article.slug}`, data)
 
 const sendComment = (slug: string) => axios.post(`articles/${slug}/comments`, {})
 
@@ -25,8 +27,8 @@ const getTags = () => axios.get('tags')
 
 export default {
   getArticles,
-  getItem,
-  updateItem,
+  getArticle,
+  updateArticle,
   getComments,
   favArticle,
   unfavArticle,

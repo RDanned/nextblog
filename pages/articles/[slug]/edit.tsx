@@ -24,7 +24,7 @@ function ArticleEdit() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if(router.query.slug) articleApi.getItem(router.query.slug as string)
+    if(router.query.slug) articleApi.getArticle(router.query.slug as string)
       .then((response) => setFormData(response.data.article))
   }, [router])
 
@@ -51,7 +51,7 @@ function ArticleEdit() {
   function handleSubmit(e: React.SyntheticEvent){
     setUpdated(false)
     e.preventDefault()
-    articleApi.updateItem({article: formData})
+    articleApi.updateArticle({article: formData})
       .then(response => {
         setFormData(response.data.article)
         setUpdated(true)
