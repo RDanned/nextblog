@@ -106,7 +106,7 @@ function ArticleEdit() {
                 </fieldset>
                 <button className="btn btn-lg pull-xs-right btn-primary"
                         type="submit">
-                  Publish Article
+                  Update Article
                 </button>
               </fieldset>
             </form>

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import Link from "next/link";
 import {ArticleType} from "../../lib/types/article";
 import ArticlePreviewFavBtn from "./ArticlePreviewFavBtn";
+import ArticleDeleteBtn from "./ArticleDeleteBtn";
 
 function ArticlePreview({article}){
   const [articlePreview, setArticlePreview] = useState<ArticleType>()
@@ -27,7 +28,7 @@ function ArticlePreview({article}){
               query: {slug: articlePreview.slug}}}>
               <a><i className="ion-edit"></i></a>
             </Link>
-            <i className="ion-trash-a"></i>
+            <ArticleDeleteBtn article={articlePreview}/>
           </span>
         </div>
         <ArticlePreviewFavBtn articlePreview={articlePreview}/>

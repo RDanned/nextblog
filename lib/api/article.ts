@@ -29,6 +29,7 @@ export default {
   getArticles,
   getArticle,
   updateArticle,
+  deleteArticle,
   getComments,
   favArticle,
   unfavArticle,
