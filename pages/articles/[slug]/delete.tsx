@@ -4,7 +4,7 @@ import articleApi from "lib/api/article"
 import {useRouter} from "next/router";
 
 function ArticleDelete(){
-  const [article, setArticle] = useState<ArticleType>({})
+  const [article, setArticle] = useState<ArticleType>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [deleted, setDeleted] = useState<boolean>(false)
   const [counter, setCounter] = useState<number>(3)

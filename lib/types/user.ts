@@ -10,3 +10,14 @@ export type UserType = {
   email?: string,
   password?: string,
 }
+
+export type ProfileType = {
+    username: string
+    bio: string
+    image: string,
+    following: boolean
+}
+
+export interface Profile {
+  profile: ProfileType
+}

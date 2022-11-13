@@ -16,7 +16,9 @@ export interface RegisterCredentials {
 
 const register = (credentials: RegisterCredentials) => axios.post("users/", {user: credentials})
 
-const getUser = () => axios.get("user")
+const getCurrentUser = () => axios.get("user")
+
+const getUser = (username: string) => axios.get(`profiles/${username}`)
 
 export interface UpdateUserData {
   user: UserType
@@ -27,6 +29,7 @@ const updateUser = (data: UpdateUserData) => axios.put("user", data)
 export default {
   login,
   register,
+  getCurrentUser,
   getUser,
   updateUser
 }

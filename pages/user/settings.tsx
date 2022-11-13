@@ -20,7 +20,7 @@ function Settings(){
   useEffect(() => {
     setIsLoggedIn(hasToken())
     if(!hasToken()) Router.push('/user/login')
-    else userApi.getUser()
+    else userApi.getCurrentUser()
       .then((response) => {
         setFormData(response.data.user)
       })
