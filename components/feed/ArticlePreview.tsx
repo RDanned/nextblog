@@ -4,6 +4,7 @@ import {ArticleType} from "../../lib/types/article";
 import ArticlePreviewFavBtn from "./ArticlePreviewFavBtn";
 import ArticleDeleteBtn from "./ArticleDeleteBtn";
 import Image from "components/utils/Image";
+import UserProfileLink from "components/user/UserProfileLink";
 
 function ArticlePreview({article}){
   const [articlePreview, setArticlePreview] = useState<ArticleType>()
@@ -17,9 +18,9 @@ function ArticlePreview({article}){
   return (
     <div className="article-preview">
       <div className="article-meta">
-        <Link href={`user/${articlePreview.author.username}`}>
-          <a><Image width={32} height={32} src={articlePreview.author.image} alt={articlePreview.author.username}/></a>
-        </Link>
+        <UserProfileLink username={articlePreview.author.username}>
+          <Image width={32} height={32} src={articlePreview.author.image} alt={articlePreview.author.username}/>
+        </UserProfileLink>
         <div className="info">
           <Link href={`articles/${articlePreview.slug}`} className="author"><a>{articlePreview.author.username}</a></Link>
           <span className="date">{articlePreview.createdAt}</span>
@@ -32,7 +33,7 @@ function ArticlePreview({article}){
             <ArticleDeleteBtn article={articlePreview}/>
           </span>
         </div>
-        <ArticlePreviewFavBtn articlePreview={articlePreview}/>
+        <ArticlePreviewFavBtn article={articlePreview}/>
       </div>
       <Link href={`articles/${articlePreview.slug}`}>
         <a className="preview-link">

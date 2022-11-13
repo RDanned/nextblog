@@ -26,10 +26,13 @@ export interface UpdateUserData {
 
 const updateUser = (data: UpdateUserData) => axios.put("user", data)
 
+const followUser = (username: string) => axios.post(`profiles/${username}/follow`)
+
 export default {
   login,
   register,
   getCurrentUser,
   getUser,
-  updateUser
+  updateUser,
+  followUser
 }

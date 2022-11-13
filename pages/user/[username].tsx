@@ -3,6 +3,7 @@ import userApi from "lib/api/user"
 import {useRouter} from "next/router";
 import {ProfileType} from "../../lib/types/user";
 import Image from "components/utils/Image";
+import FollowBtn from "components/user/FollowBtn";
 
 function UserProfile(){
   const router = useRouter()
@@ -11,7 +12,6 @@ function UserProfile(){
   useEffect(() => {
     if(router.query.username)
       userApi.getUser(router.query.username as string).then(response => {
-        console.log(response.data.profile)
         setProfile(response.data.profile)
       })
   }, [router.query.username])
@@ -32,11 +32,7 @@ function UserProfile(){
               <p>
                 {profile.bio}
               </p>
-              <button className="btn btn-sm btn-outline-secondary action-btn">
-                <i className="ion-plus-round"></i>
-                &nbsp;
-                Follow Eric Simons
-              </button>
+              <FollowBtn username={profile.username} className="action-btn"/>
             </div>
 
           </div>
