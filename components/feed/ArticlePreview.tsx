@@ -19,7 +19,6 @@ function ArticlePreview({article}){
 
   if(!articlePreview) return;
 
-  console.log(currentUser)
   let articleActions = null
   if(currentUser.username === articlePreview.author.username)
     articleActions = (

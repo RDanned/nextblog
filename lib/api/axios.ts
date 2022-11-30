@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
     return response
   },
   (error) => {
-    if (401 === error.response.status && Router.route != '/user/login') {
+    if (401 === error.response.status && Router.route != '/user/login' && !error.request.url.endsWith('user')) {
       Router.push('/user/login')
       clearStorage()
     }

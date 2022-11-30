@@ -4,7 +4,6 @@ import {setItem} from "../../helpers/psStorage";
 import Router from 'next/router'
 import {UserType} from "../../types/user";
 import {hasToken} from "../../helpers/user";
-import exp from "constants";
 
 //state type
 export interface UserState {
@@ -17,7 +16,18 @@ export interface UserState {
 const initialState: UserState = {
   isLoggedIn: false,
   errors: [],
-  user: null
+  user: {
+    id: '',
+    createdAt: '',
+    updatedAt: '',
+    token: '',
+    username: '',
+    bio: '',
+    image: '',
+    following: false,
+    email: '',
+    password: '',
+  }
 }
 
 //actions
@@ -74,6 +84,7 @@ export const userSlice = createSlice({
     builder
       .addCase(login.fulfilled, (state, action) => {
         state.isLoggedIn = true
+        state.user = action.payload.user
         setItem("token", action.payload.user.token);
         Router.push("/")
       })
@@ -81,6 +92,7 @@ export const userSlice = createSlice({
         state.errors = Object.keys(action.payload['errors']).map(key => `That ${key} ${action.payload['errors'][key]}`)
       })
       .addCase(register.fulfilled, (state, action) => {
+        state.user = action.payload.user
         state.isLoggedIn = true
         setItem("username", action.payload.user.username)
         setItem("token", action.payload.user.token);
@@ -91,6 +103,10 @@ export const userSlice = createSlice({
       })
       .addCase(loadUser.fulfilled, (state, action) => {
         state.user = action.payload
+        state.isLoggedIn = true
+      })
+      .addCase(loadUser.rejected, (state, action) => {
+        state.isLoggedIn = false
       })
   }
 })

@@ -8,6 +8,7 @@ import {useSelector} from "react-redux";
 import {selectList} from "../lib/store/modules/articles";
 import {hasToken} from "../lib/helpers/user";
 import HomeTags from "../components/feed/HomeTags";
+import Link from "next/link";
 
 const Home: NextPage = () => {
 
@@ -50,10 +51,14 @@ const Home: NextPage = () => {
             <div className="feed-toggle">
               <ul className="nav nav-pills outline-active">
                 <li className="nav-item">
-                  <a className="nav-link disabled" href="">Your Feed</a>
+                  <Link href="/my-feed/">
+                    <a className="nav-link">Your Feed</a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link active" href="">Global Feed</a>
+                  <Link href="/">
+                    <a className="nav-link active">Global Feed</a>
+                  </Link>
                 </li>
               </ul>
             </div>

@@ -2,7 +2,8 @@ import axios from "./axios";
 import {ArticleType, Article} from "../types/article";
 
 export interface ArticlesQuery {
-  tag?: string
+  tag?: string,
+  favorited?: string,
 }
 
 const getArticles = (query: ArticlesQuery) => axios.get('articles', {params: query})
