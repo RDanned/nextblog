@@ -2,6 +2,7 @@ import type { AppProps } from 'next/app'
 import Head from "next/head";
 import Navbar from "../components/app/Navbar";
 import Footer from "../components/app/Footer";
+import 'lib/assets/css/Preloader.scss'
 import { Provider } from 'react-redux'
 import store from "../lib/store"
 

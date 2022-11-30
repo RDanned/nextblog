@@ -8,6 +8,7 @@ import ArticleCommentForm from "components/feed/ArticleCommentForm";
 import ArticleCommentsList from "components/feed/ArticleCommentsList";
 import {loadList as loadCommentsList} from "lib/store/modules/comments";
 import {useAppDispatch} from "lib/store/hooks";
+import Preloader from "components/utils/Preloader";
 
 function ArticlePage() {
   const router = useRouter();
@@ -28,7 +29,6 @@ function ArticlePage() {
 
   return (
     <div className="article-page">
-
       <div className="banner">
         <div className="container">
           <ArticleHeader article={article}/>

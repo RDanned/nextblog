@@ -3,14 +3,14 @@ import Link from "next/link";
 import {ArticleType} from "../../lib/types/article";
 
 interface ArticleDeleteBtnProps {
-  article: ArticleType
+  slug: string
 }
 
-function ArticleDeleteBtn({article}: ArticleDeleteBtnProps){
+function ArticleDeleteBtn({slug}: ArticleDeleteBtnProps){
   return (
     <Link href={{
       pathname: '/articles/[slug]/delete',
-      query: {slug: article.slug}}}>
+      query: {slug: slug}}}>
       <a><i className="ion-trash-a"></i></a>
     </Link>
   )

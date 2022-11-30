@@ -5,6 +5,7 @@ import {useRouter} from "next/router";
 import {useEffect} from "react";
 import {useAppDispatch} from "../../lib/store/hooks";
 import Link from "next/link";
+import Preloader from "../utils/Preloader";
 
 function HomeTags(){
   const router = useRouter()
@@ -20,7 +21,9 @@ function HomeTags(){
   return (
     <div className="tag-list">
       {
-        tags.map((tag) => <Link href={`/?tag=${tag}`} key={uid()}><a className="tag-pill tag-default">{tag}</a></Link>)
+        tags.length
+        ? tags.map((tag) => (<Link href={`/?tag=${tag}`} key={uid()}><a className="tag-pill tag-default">{tag}</a></Link>))
+        : (<Preloader />)
       }
     </div>
   )

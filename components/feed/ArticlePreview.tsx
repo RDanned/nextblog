@@ -3,6 +3,7 @@ import Link from "next/link";
 import {ArticleType} from "../../lib/types/article";
 import ArticlePreviewFavBtn from "./ArticlePreviewFavBtn";
 import ArticleDeleteBtn from "./ArticleDeleteBtn";
+import ArticleEditLink from "./ArticleEditLink";
 import Image from "components/utils/Image";
 import UserProfileLink from "components/user/UserProfileLink";
 
@@ -12,6 +13,8 @@ function ArticlePreview({article}){
   useEffect(() => {
     setArticlePreview(article)
   })
+
+  console.log(articlePreview)
 
   if(!articlePreview) return;
 
@@ -25,12 +28,8 @@ function ArticlePreview({article}){
           <Link href={`articles/${articlePreview.slug}`} className="author"><a>{articlePreview.author.username}</a></Link>
           <span className="date">{articlePreview.createdAt}</span>
           <span className="mod-options">
-            <Link href={{
-              pathname: '/articles/[slug]/edit',
-              query: {slug: articlePreview.slug}}}>
-              <a><i className="ion-edit"></i></a>
-            </Link>
-            <ArticleDeleteBtn article={articlePreview}/>
+            <ArticleEditLink slug={articlePreview.slug} />
+            <ArticleDeleteBtn slug={articlePreview.slug}/>
           </span>
         </div>
         <ArticlePreviewFavBtn article={articlePreview}/>

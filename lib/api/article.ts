@@ -25,7 +25,8 @@ const createArticle = (data: Article) => axios.post('articles', data)
 
 const getTags = () => axios.get('tags')
 
-export default {
+
+const articleApi = {
   getArticles,
   getArticle,
   updateArticle,
@@ -36,3 +37,5 @@ export default {
   createArticle,
   getTags
 }
+
+export default articleApi
