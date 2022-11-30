@@ -11,7 +11,7 @@ function ArticleDeleteBtn({slug}: ArticleDeleteBtnProps){
     <Link href={{
       pathname: '/articles/[slug]/delete',
       query: {slug: slug}}}>
-      <a><i className="ion-trash-a"></i></a>
+      <a className="article__delete-btn"><i className="ion-trash-a"></i></a>
     </Link>
   )
 }

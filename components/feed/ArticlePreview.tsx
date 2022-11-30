@@ -6,17 +6,28 @@ import ArticleDeleteBtn from "./ArticleDeleteBtn";
 import ArticleEditLink from "./ArticleEditLink";
 import Image from "components/utils/Image";
 import UserProfileLink from "components/user/UserProfileLink";
+import {useSelector} from "react-redux";
+import {selectUser} from "../../lib/store/modules/user";
 
 function ArticlePreview({article}){
   const [articlePreview, setArticlePreview] = useState<ArticleType>()
+  const currentUser = useSelector(selectUser)
 
   useEffect(() => {
     setArticlePreview(article)
-  })
-
-  console.log(articlePreview)
+  }, [])
 
   if(!articlePreview) return;
+
+  console.log(currentUser)
+  let articleActions = null
+  if(currentUser.username === articlePreview.author.username)
+    articleActions = (
+      <span className="mod-options">
+            <ArticleEditLink slug={articlePreview.slug} />
+            <ArticleDeleteBtn slug={articlePreview.slug}/>
+          </span>
+    )
 
   return (
     <div className="article-preview">
@@ -27,10 +38,7 @@ function ArticlePreview({article}){
         <div className="info">
           <Link href={`articles/${articlePreview.slug}`} className="author"><a>{articlePreview.author.username}</a></Link>
           <span className="date">{articlePreview.createdAt}</span>
-          <span className="mod-options">
-            <ArticleEditLink slug={articlePreview.slug} />
-            <ArticleDeleteBtn slug={articlePreview.slug}/>
-          </span>
+          {articleActions}
         </div>
         <ArticlePreviewFavBtn article={articlePreview}/>
       </div>

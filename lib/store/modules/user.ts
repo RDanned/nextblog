@@ -4,17 +4,20 @@ import {setItem} from "../../helpers/psStorage";
 import Router from 'next/router'
 import {UserType} from "../../types/user";
 import {hasToken} from "../../helpers/user";
+import exp from "constants";
 
 //state type
 export interface UserState {
   isLoggedIn: boolean,
   errors: Array<string>
+  user: UserType
 }
 
 //state
 const initialState: UserState = {
   isLoggedIn: false,
-  errors: []
+  errors: [],
+  user: null
 }
 
 //actions
@@ -36,6 +39,18 @@ export const register = createAsyncThunk(
     try {
       const response = await userApi.register(credentials)
       return fulfillWithValue(response.data)
+    } catch (e) {
+      return rejectWithValue(e.response.data)
+    }
+  }
+)
+
+export const loadUser = createAsyncThunk(
+  'user/loadUser',
+  async (credentials, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const response = await userApi.getCurrentUser()
+      return fulfillWithValue(response.data.user)
     } catch (e) {
       return rejectWithValue(e.response.data)
     }
@@ -72,8 +87,10 @@ export const userSlice = createSlice({
         Router.push("/")
       })
       .addCase(register.rejected, (state, action) => {
-        console.log(action)
         state.errors = Object.keys(action.payload['errors']).map(key => `That ${key} ${action.payload['errors'][key]}`)
+      })
+      .addCase(loadUser.fulfilled, (state, action) => {
+        state.user = action.payload
       })
   }
 })
@@ -84,5 +101,6 @@ export const {setIsLoggedIn, setErrors} = userSlice.actions
 //selectors
 export const selectIsLoggedIn = (state) => state.user.isLoggedIn
 export const selectErrors = (state) => state.user.errors
+export const selectUser = (state) => state.user.user
 
 export default userSlice.reducer

@@ -6,7 +6,7 @@ function ArticleEditLink({slug}) {
     <Link href={{
       pathname: '/articles/[slug]/edit',
       query: {slug: slug}}}>
-      <a><i className="ion-edit"></i></a>
+      <a className="article__edit-btn"><i className="ion-edit"></i></a>
     </Link>
   )
 }
